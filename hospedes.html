@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,400italic'>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ekko-lightbox.min.css">
+<!--    <link rel="stylesheet" type="text/css" href="css/ekko-lightbox-dark.css"> -->
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+<!--
+Sigma Template
+http://www.templatemo.com/tm-479-sigma
+-->
+    <title>AQUI HOSTEL | Hóspedes</title>
+</head>
+
+<body>
+
+<header id="top">
+
+	<div class="container-fluid">
+    
+        <div class="row">
+        
+            <div class="col-lg-4 col-md-12 site-title">
+                <h1>AQUI HOSTEL</h1>
+              <h2>Hóspedes</h2>
+                
+            </div>
+            
+            <div class="col-lg-8 col-md-12 main-menu">
+                
+                <nav class="navbar navbar-light">
+                  <ul class="nav navbar-nav single-page-nav">
+                    <li class="nav-item">
+                      <a class="nav-link" href="index.html">Página inicial <!-- <span class="sr-only">(current)</span> --></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="acomodacoes.html">Acomodações</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="funcionarios.html">Funcionários</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="hospedes.html">Hóspedes</a>
+                    </li>
+                  </ul>
+                </nav>
+              
+            </div>
+            
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+            	<hr class="sigma-hr">
+            </div>
+        </div>
+
+    </div>
+    
+</header>
+
+
+
+<section id="about">
+
+	<div class="container-fluid">
+    
+
+
+        <div class="row single-page-nav">
+        
+
+        
+        	<div class="sigma-content col-lg-6 col-md-6 sigma-bg-pink">
+            	<h2>Listar</h2>
+            	<p>Acesse o link abaixo para listar os dados dos hóspedes.</p>
+                <a href="hospedes-lista.html" class="btn btn-primary btn-lg">Listar</a>
+            </div>
+            <div class="sigma-content col-lg-6 col-md-6 sigma-bg-lightblue">
+            	<h2>Deletar</h2>
+            	<p>Acesse o link abaixo para deletar um hóspede.</p>
+                <a href="hospedes-lista.html" class="btn btn-danger btn-lg">Deletar</a>
+            </div>
+        
+
+            
+        </div>
+        
+	</div>
+    
+</section>
+            
+<section id="contact">
+
+	<div class="container-fluid">
+
+        <div class="row sigma-section-header">
+        	<div class="col-md-offset-2 col-lg-offset-3 col-lg-6 col-md-8 col-sm-12 text-center">
+        		<h1>Cadastrar</h1>
+                <p>Preencha os campos abaixo para cadastrar um hóspede.</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="sigmano col-lg-8 col-md-12">
+                
+                <div class="col-md-6">
+               		<fieldset class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" id="nome" placeholder="Preencha o nome">
+                  	</fieldset>
+                  
+                  	<fieldset class="form-group">
+                    	<label for="cpf">CPF</label>
+                    	<input type="cpf" class="form-control" id="cpf" placeholder="Preencha o CPF">
+                    	
+                  	</fieldset>
+                    
+                </div> 
+                <div class="col-md-6">
+
+                  	<fieldset class="form-group">
+                    	<label for="email">E-mail</label>
+                    	<input type="email" class="form-control" id="email" placeholder="Preencha o E-mail">
+                    	
+                  	</fieldset>                  
+                 
+                 	<fieldset class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="telefone" class="form-control" id="telefone" placeholder="Preencha o Telefone">
+                  	</fieldset>
+                  
+                  	
+                </div>  
+                
+            </div>
+            
+			<div class="sigma-content col-lg-4 col-md-12">
+        		Clique no botão abaixo para enviar e cadastrar os dados no banco de dados.<br><br>
+                <button onclick="inserir()" class="btn btn-success btn-lg">Enviar</button>
+            </div>
+        </div>
+        
+	</div>
+    
+</section>
+  
+  
+<footer>  
+
+	<div class="container-fluid">
+    
+    	<div class="row">
+            <div class="col-md-12">
+            	<hr class="sigma-hr">
+            </div>
+        </div>
+
+        <div class="row">
+        	<div class="sigma-copyright col-lg-8">
+            	<p>© | Desenvolvido por: Leonardo e Bruna</a></p>
+            </div>
+            
+            <div class="sigma-copyright col-lg-4 single-page-nav text-right">
+            	<img src="images/aquiEduca.jfif" width="20%" height="20%" vspace="15px" hspace="8px">
+                <img src="images/aquiHostel.png" width="20%" height="20%" vspace="15px" hspace="8px">
+            </div>
+        </div>
+        
+    </div>   
+
+</footer>
+
+
+
+</body>
+</html>
+
+
+<!-- 
+    Aqui abaixo nós colocamos
+    o código javascript para construir o JSON
+    e enviá-lo a API
+-->
+
+<script language="javascript">
+    function inserir(){
+
+        //Criando variáveis com os dados obtidos
+        //nos campos do formulário no HTML
+        var nome = document.getElementById("nome").value
+        var cpf = document.getElementById("cpf").value        
+        var email = document.getElementById("email").value
+        var telefone = document.getElementById("telefone").value
+
+        //Construindo o JSON que será
+        //enviado para a API
+        var json = {
+            'nome': nome,
+            'cpf': cpf,          
+            'email': email,
+            'telefone': telefone          
+        }
+
+        //Enviando para a API o json 
+        //construído na etapa anterior
+        fetch('http://127.0.0.1:5000/hospede/inserir',
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            method: "POST",
+            body: JSON.stringify(json)
+        })
+        .then(function(res){ 
+            res.json()
+                .then(data => {
+                    console.log(data)
+                    window.open("hospedes-lista.html");
+                })
+        })
+        .catch(function(res){ console.log(res) })
+    }
+</script>
