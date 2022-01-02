@@ -1,5 +1,4 @@
-nome;telefone;email
-quarto5;250;Básico
-quarto1;2500;Luxo
-quarto y;800;Intermediário
-funcionário1;7188383;leo@leo.com
+nome;tipo;qtdCama
+Quarto frente mar 1;Básico;Uma casal
+Quarto vista praça;Intermediário;Uma casal + uma infantil
+;Básico;Uma casal

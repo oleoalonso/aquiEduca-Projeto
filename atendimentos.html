@@ -15,12 +15,10 @@
 Sigma Template
 http://www.templatemo.com/tm-479-sigma
 -->
-    <title>AQUI HOSTEL | Acomodações</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
-  
+    <title>AQUI HOSTEL | Atendimentos</title>
 </head>
 
-<body onload="listar()">
+<body>
 
 <header id="top">
 
@@ -31,9 +29,8 @@ http://www.templatemo.com/tm-479-sigma
             <div class="col-lg-4 col-md-12 site-title">
             	<img src="images/aquiEduca.jfif" width="18%" height="18%" vspace="15px" hspace="8px">
                 <img src="images/aquiHostel.png" width="18%" height="18%" vspace="15px" hspace="8px">
-              <h2>Acomodações >> Lista</h2>              
+              <h2>Atendimentos</h2>              
             </div>
-                
             
             <div class="col-lg-8 col-md-12 main-menu">
                 
@@ -88,26 +85,84 @@ http://www.templatemo.com/tm-479-sigma
 
 
 
+<section id="about">
 
+	<div class="container-fluid">
+    
+
+
+        <div class="row single-page-nav">
+        
+
+        
+        	<div class="sigma-content col-lg-6 col-md-6 sigma-bg-pink">
+            	<h2>Listar</h2>
+            	<p>Acesse o link abaixo para listar os atendimentos.</p>
+                <a href="atendimentos-lista.html" class="btn btn-primary btn-lg">Listar</a>
+            </div>
+            <div class="sigma-content col-lg-6 col-md-6 sigma-bg-lightblue">
+            	<h2>Deletar</h2>
+            	<p>Acesse o link abaixo para deletar um atendimento.</p>
+                <a href="atendimentos-lista.html" class="btn btn-danger btn-lg">Deletar</a>
+            </div>
+        
+
+            
+        </div>
+        
+	</div>
+    
+</section>
             
 <section id="contact">
 
 	<div class="container-fluid">
-      
-      <table id="table" class="table">
-        <thead>
-          <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Tipo de acomodação</th>
-            <th scope="col">Quantidade de cama</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <!-- Bem aqui será gerada a tag TR que indica a linha que precisaremos gerar repetição com base
-            na lista que iremos obter da API para relacionar todos os clientes existentes -->
-      </table>
-      
- 
+
+        <div class="row sigma-section-header">
+        	<div class="col-md-offset-2 col-lg-offset-3 col-lg-6 col-md-8 col-sm-12 text-center">
+        		<h1>Cadastrar</h1>
+                <p>Preencha os campos abaixo para cadastrar um atendimento.</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="sigmano col-lg-8 col-md-12">
+                
+                <div class="col-md-6">
+               		<fieldset class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" id="nome" placeholder="Preencha o nome do hóspede">
+                  	</fieldset>
+                                      
+               		<fieldset class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="text" class="form-control" id="cpf" placeholder="Preencha o e-mail">
+                  	</fieldset>
+                  
+               		<fieldset class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" class="form-control" id="telefone" placeholder="Preencha o telefone">
+                  	</fieldset>                  
+                  
+                </div> 
+                <div class="col-md-6">
+                
+                  
+               		<fieldset class="form-group">
+                        <label for="mensagem">Mensagem</label>
+                      <textarea rows="10" type="mensagem" class="form-control" id="mensagem" placeholder="Escreva a mensagem"></textarea>
+                  	</fieldset>                  
+                                      
+                  	
+                </div>  
+                
+            </div>
+            
+			<div class="sigma-content col-lg-4 col-md-12">
+        		Clique no botão abaixo para enviar e cadastrar os dados no banco de dados.<br><br>
+                <button onclick="inserir()" class="btn btn-success btn-lg">Enviar</button>
+            </div>
+        </div>
         
 	</div>
     
@@ -147,63 +202,48 @@ http://www.templatemo.com/tm-479-sigma
 
 <!-- 
     Aqui abaixo nós colocamos
-    o código javascript obter a lista de clientes da API
-    e "renderizá-la" em nossa tela
+    o código javascript para construir o JSON
+    e enviá-lo a API
 -->
 
 <script language="javascript">
-    function listar() {
+    function inserir(){
+
+        //Criando variáveis com os dados obtidos
+        //nos campos do formulário no HTML
+        var nome = document.getElementById("nome").value
+        var email = document.getElementById("email").value
+        var telefone = document.getElementById("telefone").value
+        var mensagem = document.getElementById("mensagem").value        
+
+        //Construindo o JSON que será
+        //enviado para a API
+        var json = {
+            'nome': nome,
+            'email': email,
+            'telefone': telefone,
+            'mensagem': mensagem          
+        }
 
         //Enviando para a API o json 
         //construído na etapa anterior
-        fetch('http://127.0.0.1:5000/acomodacao/listar',
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                method: "GET" //Veja que aqui eu informo o verbo da requisição REST
-            })
-            .then(function (res) {
-                res.json()
-                    .then(lista => {
-                        console.log(lista)
-                        inserirLinhas(lista)
-                    })
-            })
-            .catch(function (res) { console.log(res) })
+        fetch('http://127.0.0.1:5000/atendimento/inserir',
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            method: "POST",
+            body: JSON.stringify(json)
+        })
+        .then(function(res){ 
+            res.json()
+                .then(data => {
+                    console.log(data)
+                    window.open("atendimentos-lista.html");
+                })
+        })
+        .catch(function(res){ console.log(res) })
     }
-
-    function inserirLinhas(lista) {
-        for (var i = 0; i < lista.length; i++) {
-            var row = $('<tr/>');
-            row.append($('<td/>').html(lista[i]['nome']));
-            row.append($('<td/>').html(lista[i]['tipo']));
-            row.append($('<td/>').html(lista[i]['qtdCama']));
-            row.append($('<td/>').html('<img src="images/delete_icon.png" width="30" onclick="deletar(' + i + ')" style="cursor: pointer;">'));
-            $('#table').append(row);
-        }
-    }
-
-    function deletar(nroLinha) {
-        fetch('http://127.0.0.1:5000/acomodacao/deletar/' + String(nroLinha),
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*'
-                },
-                method: "DELETE"
-            })
-            .then(function (res) {
-                res.json()
-                    .then(data => {
-                        console.log('OK')
-                        document.location.reload(true);
-                    })
-            })
-            .catch(function (res) { console.log(res) })
-    }
-
 </script>

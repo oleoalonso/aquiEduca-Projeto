@@ -15,7 +15,7 @@
 Sigma Template
 http://www.templatemo.com/tm-479-sigma
 -->
-    <title>AQUI HOSTEL | Acomodações</title>
+    <title>AQUI HOSTEL | Valores</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
   
 </head>
@@ -31,9 +31,8 @@ http://www.templatemo.com/tm-479-sigma
             <div class="col-lg-4 col-md-12 site-title">
             	<img src="images/aquiEduca.jfif" width="18%" height="18%" vspace="15px" hspace="8px">
                 <img src="images/aquiHostel.png" width="18%" height="18%" vspace="15px" hspace="8px">
-              <h2>Acomodações >> Lista</h2>              
+              <h2>Valores >> Lista</h2>              
             </div>
-                
             
             <div class="col-lg-8 col-md-12 main-menu">
                 
@@ -97,9 +96,8 @@ http://www.templatemo.com/tm-479-sigma
       <table id="table" class="table">
         <thead>
           <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Tipo de acomodação</th>
-            <th scope="col">Quantidade de cama</th>
+            <th scope="col">Tipo de Acomodação</th>
+            <th scope="col">Valor / Diária</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -156,7 +154,7 @@ http://www.templatemo.com/tm-479-sigma
 
         //Enviando para a API o json 
         //construído na etapa anterior
-        fetch('http://127.0.0.1:5000/acomodacao/listar',
+        fetch('http://127.0.0.1:5000/valor/listar',
             {
                 headers: {
                     'Accept': 'application/json',
@@ -178,16 +176,15 @@ http://www.templatemo.com/tm-479-sigma
     function inserirLinhas(lista) {
         for (var i = 0; i < lista.length; i++) {
             var row = $('<tr/>');
-            row.append($('<td/>').html(lista[i]['nome']));
             row.append($('<td/>').html(lista[i]['tipo']));
-            row.append($('<td/>').html(lista[i]['qtdCama']));
+            row.append($('<td/>').html(lista[i]['valor']));
             row.append($('<td/>').html('<img src="images/delete_icon.png" width="30" onclick="deletar(' + i + ')" style="cursor: pointer;">'));
             $('#table').append(row);
         }
     }
 
     function deletar(nroLinha) {
-        fetch('http://127.0.0.1:5000/acomodacao/deletar/' + String(nroLinha),
+        fetch('http://127.0.0.1:5000/valor/deletar/' + String(nroLinha),
             {
                 headers: {
                     'Accept': 'application/json',

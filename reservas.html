@@ -15,7 +15,7 @@
 Sigma Template
 http://www.templatemo.com/tm-479-sigma
 -->
-    <title>AQUI HOSTEL | Hóspedes</title>
+    <title>AQUI HOSTEL | Reservas</title>
 </head>
 
 <body>
@@ -29,7 +29,7 @@ http://www.templatemo.com/tm-479-sigma
             <div class="col-lg-4 col-md-12 site-title">
             	<img src="images/aquiEduca.jfif" width="18%" height="18%" vspace="15px" hspace="8px">
                 <img src="images/aquiHostel.png" width="18%" height="18%" vspace="15px" hspace="8px">
-              <h2>Hóspedes</h2>              
+              <h2>Reservas</h2>              
             </div>
             
             <div class="col-lg-8 col-md-12 main-menu">
@@ -97,13 +97,13 @@ http://www.templatemo.com/tm-479-sigma
         
         	<div class="sigma-content col-lg-6 col-md-6 sigma-bg-pink">
             	<h2>Listar</h2>
-            	<p>Acesse o link abaixo para listar os dados dos hóspedes.</p>
-                <a href="hospedes-lista.html" class="btn btn-primary btn-lg">Listar</a>
+            	<p>Acesse o link abaixo para listar as reservas.</p>
+                <a href="reservas-lista.html" class="btn btn-primary btn-lg">Listar</a>
             </div>
             <div class="sigma-content col-lg-6 col-md-6 sigma-bg-lightblue">
             	<h2>Deletar</h2>
-            	<p>Acesse o link abaixo para deletar um hóspede.</p>
-                <a href="hospedes-lista.html" class="btn btn-danger btn-lg">Deletar</a>
+            	<p>Acesse o link abaixo para deletar uma reserva.</p>
+                <a href="reservas-lista.html" class="btn btn-danger btn-lg">Deletar</a>
             </div>
         
 
@@ -121,7 +121,7 @@ http://www.templatemo.com/tm-479-sigma
         <div class="row sigma-section-header">
         	<div class="col-md-offset-2 col-lg-offset-3 col-lg-6 col-md-8 col-sm-12 text-center">
         		<h1>Cadastrar</h1>
-                <p>Preencha os campos abaixo para cadastrar um hóspede.</p>
+                <p>Preencha os campos abaixo para cadastrar um tipo de acomodação.</p>
             </div>
         </div>
         
@@ -130,30 +130,48 @@ http://www.templatemo.com/tm-479-sigma
                 
                 <div class="col-md-6">
                		<fieldset class="form-group">
-                        <label for="nome">Nome</label>
-                        <input type="text" class="form-control" id="nome" placeholder="Preencha o nome">
+                        <label for="name">Nome</label>
+                        <input type="text" class="form-control" id="nome" placeholder="Preencha o nome da acomodação">
+                  	</fieldset>
+                                      
+               		<fieldset class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input type="text" class="form-control" id="cpf" placeholder="Preencha o CPF">
                   	</fieldset>
                   
-                  	<fieldset class="form-group">
-                    	<label for="cpf">CPF</label>
-                    	<input type="cpf" class="form-control" id="cpf" placeholder="Preencha o CPF">
-                    	
-                  	</fieldset>
-                    
+               		<fieldset class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="text" class="form-control" id="email" placeholder="Preencha o E-mail">
+                  	</fieldset>           
+                  
+               		<fieldset class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" class="form-control" id="telefone" placeholder="Preencha o Telefone">
+                  	</fieldset>                  
+                  
                 </div> 
                 <div class="col-md-6">
-
-                  	<fieldset class="form-group">
-                    	<label for="email">E-mail</label>
-                    	<input type="email" class="form-control" id="email" placeholder="Preencha o E-mail">
-                    	
-                  	</fieldset>                  
-                 
-                 	<fieldset class="form-group">
-                        <label for="telefone">Telefone</label>
-                        <input type="telefone" class="form-control" id="telefone" placeholder="Preencha o Telefone">
+                  
+                    <fieldset class="form-group">
+                    	<label for="budget">Tipo da acomodação</label>
+                    	<select class="form-control" id="acomodacao">
+                      		<option>Básico</option>
+                      		<option>Intermediário</option>
+                      		<option>Luxo</option>
+                      		<option>Super Luxo</option>
+                    	</select>
+                  	</fieldset>          
+                  
+               		<fieldset class="form-group">
+                        <label for="data">Data entrada</label>
+                        <input type="text" class="form-control" id="dataEntrada" placeholder="Preencha a data de entrada">
                   	</fieldset>
                   
+               		<fieldset class="form-group">
+                        <label for="telefone">Data saída</label>
+                        <input type="text" class="form-control" id="dataSaida" placeholder="Preencha a data de saída">
+                  	</fieldset>                  
+                                      
                   	
                 </div>  
                 
@@ -201,7 +219,6 @@ http://www.templatemo.com/tm-479-sigma
 </body>
 </html>
 
-
 <!-- 
     Aqui abaixo nós colocamos
     o código javascript para construir o JSON
@@ -214,22 +231,28 @@ http://www.templatemo.com/tm-479-sigma
         //Criando variáveis com os dados obtidos
         //nos campos do formulário no HTML
         var nome = document.getElementById("nome").value
-        var cpf = document.getElementById("cpf").value        
+        var cpf = document.getElementById("cpf").value
         var email = document.getElementById("email").value
-        var telefone = document.getElementById("telefone").value
+        var telefone = document.getElementById("telefone").value     
+        var acomodacao = document.getElementById("acomodacao").value  
+        var dataEntrada = document.getElementById("dataEntrada").value  
+        var dataSaida = document.getElementById("dataSaida").value         
 
         //Construindo o JSON que será
         //enviado para a API
         var json = {
             'nome': nome,
-            'cpf': cpf,          
+            'cpf': cpf,
             'email': email,
-            'telefone': telefone          
+            'telefone': telefone,
+            'acomodacao': acomodacao, 
+            'dataEntrada': dataEntrada,
+            'dataSaida': dataSaida        
         }
 
         //Enviando para a API o json 
         //construído na etapa anterior
-        fetch('http://127.0.0.1:5000/hospede/inserir',
+        fetch('http://127.0.0.1:5000/reserva/inserir',
         {
             headers: {
                 'Accept': 'application/json',
@@ -242,7 +265,8 @@ http://www.templatemo.com/tm-479-sigma
         .then(function(res){ 
             res.json()
                 .then(data => {
-                    console.log(data);
+                    console.log(data)
+                    window.open("reservas-lista.html");
                 })
         })
         .catch(function(res){ console.log(res) })

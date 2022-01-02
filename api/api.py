@@ -8,7 +8,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-clienteFile = '../csv/acomodacoes.csv'
+
 # ###############################################
 # A C O M O D A Ç Ã O
 acomodacaoFile = '../csv/acomodacoes.csv'
@@ -19,87 +19,110 @@ funcionarioFile = '../csv/funcionarios.csv'
 # H Ó S P E D E
 hospedeFile = '../csv/hospedes.csv'
 # ###############################################
+# V A L O R
+valorFile = '../csv/valores.csv'
+# ###############################################
+# R E S E R V A
+reservaFile = '../csv/reservas.csv'
+# ###############################################
+# P A C O T E
+pacoteFile = '../csv/pacotes.csv'
+# ###############################################
+# E V E N T O S
+eventoFile = '../csv/eventos.csv'
+# ###############################################
+# D E P O I M E N T O S
+depoimentoFile = '../csv/depoimentos.csv'
+# ###############################################
+# A T E N D I M E N T O
+atendimentoFile = '../csv/atendimentos.csv'
+# ###############################################
+
+
+
+
+
 
 # *******************************************************
-@app.route('/cliente/inserir', methods=['POST'])
-def inserirCliente():
-    cliente = json.loads(request.data)
-    inserirClienteCsv(cliente)
-    return { 'message': 'Acomodação adicionado com sucesso' }
+# ********************* ACOMODAÇÃO *********************
+# 
+# >>>>>>>>  i n i c i o   <<<<<<<<<
+# 
+# [ a t r i b u t o s ]
 
+@app.route('/acomodacao/inserir', methods=['POST'])
+def inserirAcomodacao():
+    acomodacao = json.loads(request.data)
+    inserirAcomodacaoCsv(acomodacao)
+    return { 'message': 'Acomodação adicionado com sucesso' }  
 
-@app.route('/cliente/listar', methods=['GET'])
-def listarCliente():
-    clientes = listarClienteCsv()
-    return json.dumps(clientes)
+@app.route('/acomodacao/listar', methods=['GET'])
+def listarAcomodacao():
+    acomodacoes = listarAcomodacaoCsv()
+    return json.dumps(acomodacoes)    
 
 # para a exclusão, é necessário reconstruir toda a planilha
 # pra isso, faremos a obtenção de todos os dados da planilha e adicionaremos todos novamente com exceção
 # ao número da linha que virá como parâmetro neste método (end-point)
-@app.route('/cliente/deletar/<nroLinha>', methods=['DELETE'])
-def deletarCliente(nroLinha):
-    clientes = listarClienteCsv()
-    novosClientes = []       
+@app.route('/acomodacao/deletar/<nroLinha>', methods=['DELETE'])
+def deletarAcomodacao(nroLinha):
+    acomodacoes = listarAcomodacaoCsv()
+    novosAcomodacoes = []       
 
     i = 0
-    for cliente in clientes:        
+    for acomodacao in acomodacoes:        
         if int(nroLinha) != i:
-            novosClientes.append(cliente)
+            novosAcomodacoes.append(acomodacao)
         i = i + 1
 
-    reinserirClienteCsv(novosClientes)
-    return { 'message': 'Cliente deletado com sucesso' }
-
-
-
-
-
-
+    reinserirAcomodacaoCsv(novosAcomodacoes)
+    return { 'message': 'Acomodação deletado com sucesso' }
 
 # *******************************************************
-# d e f
+# *******************************************************
 # 
-# F U N Ç Õ E S 
+# [ C O N S T R U T O R ]
 
-def listarClienteCsv():
-    clientes = []
-    with open(clienteFile, 'r', encoding='latin-1') as planilha:
+def listarAcomodacaoCsv():
+    acomodacoes = []
+    with open(acomodacaoFile, 'r', encoding='latin-1') as planilha:
         tabela = csv.reader(planilha, delimiter=';')
         count = 1        
         for linha in tabela:
-            if count != 1: #aqui estamos pulando a linha que corresponde ao cabeçalho do csv
-                clientes.append({ 
-                    'nome': linha[0], 
-                    'telefone': linha[1], 
-                    'email': linha[2] 
+            if count != 1: # aqui estamos pulando a linha que corresponde ao cabeçalho do csv
+                acomodacoes.append({ 
+                    'nome': linha[0],
+                    'tipo': linha[1],                     
+                    'qtdCama': linha[2]                 
                 })
             count += 1
 
-    return clientes
+    return acomodacoes
 
-def inserirClienteCsv(cliente):
-    novaLinha = [cliente["nome"], cliente["telefone"], cliente["email"]]
-    with open(clienteFile, 'a', newline='') as planilha:  
+def inserirAcomodacaoCsv(acomodacao):
+    novaLinha = [acomodacao["nome"], acomodacao["tipo"], acomodacao["qtdCama"]]
+    with open(acomodacaoFile, 'a', newline='') as planilha:  
         writer_object = writer(planilha, delimiter=';')
         writer_object.writerow(novaLinha)  
         planilha.close()
 
-def reinserirClienteCsv(clientes):
+def reinserirAcomodacaoCsv(acomodacoes):
     linhas = []
-    linhas.append(["nome", "telefone", "email"]) #é necessário inserir novamente o cabeçalho da planilha
+    linhas.append(["nome", "tipo", "qtdCama"]) # é necessário inserir novamente o cabeçalho da planilha
 
-    for cliente in clientes:
-        novaLinha = [cliente["nome"], cliente["telefone"], cliente["email"]]
+    for acomodacao in acomodacoes:
+        novaLinha = [acomodacao["nome"], acomodacao["tipo"], acomodacao["qtdCama"]]
         linhas.append(novaLinha)
 
-    with open(clienteFile, 'w', newline='') as planilha:  
+    with open(acomodacaoFile, 'w', newline='') as planilha:  
         writer_object = writer(planilha, delimiter=';')
         writer_object.writerows(linhas)  
         planilha.close()
 
-
-
-
+# *******************************************************
+# ********************* ACOMODAÇÃO *********************
+# 
+# >>>>>>>>  f i m   <<<<<<<<<    
 
 
 
@@ -274,3 +297,517 @@ def reinserirHospedeCsv(hospedes):
 # ********************* HÓSPEDE *********************
 # 
 # >>>>>>>>  f i m   <<<<<<<<<
+
+
+
+
+
+# *******************************************************
+# ********************* VALORES *********************
+# 
+# >>>>>>>>  i n i c i o   <<<<<<<<<
+# 
+# [ a t r i b u t o s ]
+
+@app.route('/valor/inserir', methods=['POST'])
+def inserirValor():
+    valor = json.loads(request.data)
+    inserirValorCsv(valor)
+    return { 'message': 'Valor adicionado com sucesso' }  
+
+@app.route('/valor/listar', methods=['GET'])
+def listarValor():
+    valores = listarValorCsv()
+    return json.dumps(valores)    
+
+# para a exclusão, é necessário reconstruir toda a planilha
+# pra isso, faremos a obtenção de todos os dados da planilha e adicionaremos todos novamente com exceção
+# ao número da linha que virá como parâmetro neste método (end-point)
+@app.route('/valor/deletar/<nroLinha>', methods=['DELETE'])
+def deletarValor(nroLinha):
+    valores = listarValorCsv()
+    novosValores = []       
+
+    i = 0
+    for valor in valores:        
+        if int(nroLinha) != i:
+            novosValores.append(valor)
+        i = i + 1
+
+    reinserirValorCsv(novosValores)
+    return { 'message': 'Valor deletado com sucesso' }
+
+# *******************************************************
+# *******************************************************
+# 
+# [ C O N S T R U T O R ]
+
+def listarValorCsv():
+    valores = []
+    with open(valorFile, 'r', encoding='latin-1') as planilha:
+        tabela = csv.reader(planilha, delimiter=';')
+        count = 1        
+        for linha in tabela:
+            if count != 1: #aqui estamos pulando a linha que corresponde ao cabeçalho do csv
+                valores.append({ 
+                    'tipo': linha[0],
+                    'valor': linha[1]                    
+                })
+            count += 1
+
+    return valores
+
+def inserirValorCsv(valor):
+    novaLinha = [valor["tipo"], valor["valor"]]
+    with open(valorFile, 'a', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerow(novaLinha)  
+        planilha.close()
+
+def reinserirValorCsv(valores):
+    linhas = []
+    linhas.append(["tipo", "valor"]) # é necessário inserir novamente o cabeçalho da planilha
+
+    for valor in valores:
+        novaLinha = [valor["tipo"], valor["valor"]]
+        linhas.append(novaLinha)
+
+    with open(valorFile, 'w', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerows(linhas)  
+        planilha.close()
+
+# *******************************************************
+# ********************* VALOR *********************
+# 
+# >>>>>>>>  f i m   <<<<<<<<<
+
+
+
+
+# *******************************************************
+# ********************* RESERVA *********************
+# 
+# >>>>>>>>  i n i c i o   <<<<<<<<<
+# 
+# [ a t r i b u t o s ]
+
+@app.route('/reserva/inserir', methods=['POST'])
+def inserirReserva():
+    reserva = json.loads(request.data)
+    inserirReservaCsv(reserva)
+    return { 'message': 'Reserva adicionado com sucesso' }  
+
+@app.route('/reserva/listar', methods=['GET'])
+def listarReserva():
+    reservas = listarReservaCsv()
+    return json.dumps(reservas)    
+
+# para a exclusão, é necessário reconstruir toda a planilha
+# pra isso, faremos a obtenção de todos os dados da planilha e adicionaremos todos novamente com exceção
+# ao número da linha que virá como parâmetro neste método (end-point)
+@app.route('/reserva/deletar/<nroLinha>', methods=['DELETE'])
+def deletarReserva(nroLinha):
+    reservas = listarReservaCsv()
+    novosReservas = []       
+
+    i = 0
+    for reserva in reservas:        
+        if int(nroLinha) != i:
+            novosReservas.append(reserva)
+        i = i + 1
+
+    reinserirReservaCsv(novosReservas)
+    return { 'message': 'Reserva deletado com sucesso' }
+
+# *******************************************************
+# *******************************************************
+# 
+# [ C O N S T R U T O R ]
+
+def listarReservaCsv():
+    reservas = []
+    with open(reservaFile, 'r', encoding='latin-1') as planilha:
+        tabela = csv.reader(planilha, delimiter=';')
+        count = 1        
+        for linha in tabela:
+            if count != 1: #aqui estamos pulando a linha que corresponde ao cabeçalho do csv
+                reservas.append({ 
+                    'nome': linha[0],
+                    'cpf': linha[1],                     
+                    'email': linha[2],
+                    'telefone': linha[3],
+                    'acomodacao': linha[4],
+                    'dataEntrada': linha[5],
+                    'dataSaida': linha[6]                                                                                 
+                })
+            count += 1
+
+    return reservas
+
+def inserirReservaCsv(reserva):
+    novaLinha = [reserva["nome"], reserva["cpf"], reserva["email"], reserva["telefone"], reserva["acomodacao"], reserva["dataEntrada"], reserva["dataSaida"]]
+    with open(reservaFile, 'a', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerow(novaLinha)  
+        planilha.close()
+
+def reinserirReservaCsv(reservas):
+    linhas = []
+    linhas.append(["nome", "cpf", "email", "telefone", "acomodacao", "dataEntrada", "dataSaida"]) # é necessário inserir novamente o cabeçalho da planilha
+
+    for reserva in reservas:
+        novaLinha = [reserva["nome"], reserva["cpf"], reserva["email"], reserva["telefone"], reserva["acomodacao"], reserva["dataEntrada"], reserva["dataSaida"]]
+        linhas.append(novaLinha)
+
+    with open(reservaFile, 'w', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerows(linhas)  
+        planilha.close()
+
+# *******************************************************
+# ********************* RESERVA *********************
+# 
+# >>>>>>>>  f i m   <<<<<<<<<
+
+
+
+
+
+# *******************************************************
+# ********************* PACOTES *********************
+# 
+# >>>>>>>>  i n i c i o   <<<<<<<<<
+# 
+# [ a t r i b u t o s ]
+
+@app.route('/pacote/inserir', methods=['POST'])
+def inserirPacote():
+    pacote = json.loads(request.data)
+    inserirPacoteCsv(pacote)
+    return { 'message': 'Pacote adicionado com sucesso' }  
+
+@app.route('/pacote/listar', methods=['GET'])
+def listarPacote():
+    pacotes = listarPacoteCsv()
+    return json.dumps(pacotes)    
+
+# para a exclusão, é necessário reconstruir toda a planilha
+# pra isso, faremos a obtenção de todos os dados da planilha e adicionaremos todos novamente com exceção
+# ao número da linha que virá como parâmetro neste método (end-point)
+@app.route('/pacote/deletar/<nroLinha>', methods=['DELETE'])
+def deletarPacote(nroLinha):
+    pacotes = listarPacoteCsv()
+    novosPacotes = []       
+
+    i = 0
+    for pacote in pacotes:        
+        if int(nroLinha) != i:
+            novosPacotes.append(pacote)
+        i = i + 1
+
+    reinserirPacoteCsv(novosPacotes)
+    return { 'message': 'Pacote deletado com sucesso' }
+
+# *******************************************************
+# *******************************************************
+# 
+# [ C O N S T R U T O R ]
+
+def listarPacoteCsv():
+    pacotes = []
+    with open(pacoteFile, 'r', encoding='latin-1') as planilha:
+        tabela = csv.reader(planilha, delimiter=';')
+        count = 1        
+        for linha in tabela:
+            if count != 1: #aqui estamos pulando a linha que corresponde ao cabeçalho do csv
+                pacotes.append({ 
+                    'nome': linha[0],
+                    'periodo': linha[1],                     
+                    'valor': linha[2]                  
+                })
+            count += 1
+
+    return pacotes
+
+def inserirPacoteCsv(pacote):
+    novaLinha = [pacote["nome"], pacote["periodo"], pacote["valor"]]
+    with open(pacoteFile, 'a', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerow(novaLinha)  
+        planilha.close()
+
+def reinserirPacoteCsv(pacotes):
+    linhas = []
+    linhas.append(["nome", "periodo", "valor"]) # é necessário inserir novamente o cabeçalho da planilha
+
+    for pacote in pacotes:
+        novaLinha = [pacote["nome"], pacote["periodo"], pacote["valor"]]
+        linhas.append(novaLinha)
+
+    with open(pacoteFile, 'w', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerows(linhas)  
+        planilha.close()
+
+# *******************************************************
+# ********************* PACOTES *********************
+# 
+# >>>>>>>>  f i m   <<<<<<<<<
+
+
+
+
+
+# *******************************************************
+# ********************* EVENTOS *********************
+# 
+# >>>>>>>>  i n i c i o   <<<<<<<<<
+# 
+# [ a t r i b u t o s ]
+
+@app.route('/evento/inserir', methods=['POST'])
+def inserirEvento():
+    evento = json.loads(request.data)
+    inserirEventoCsv(evento)
+    return { 'message': 'Evento adicionado com sucesso' }  
+
+@app.route('/evento/listar', methods=['GET'])
+def listarEvento():
+    eventos = listarEventoCsv()
+    return json.dumps(eventos)    
+
+# para a exclusão, é necessário reconstruir toda a planilha
+# pra isso, faremos a obtenção de todos os dados da planilha e adicionaremos todos novamente com exceção
+# ao número da linha que virá como parâmetro neste método (end-point)
+@app.route('/evento/deletar/<nroLinha>', methods=['DELETE'])
+def deletarEvento(nroLinha):
+    eventos = listarEventoCsv()
+    novosEventos = []       
+
+    i = 0
+    for evento in eventos:        
+        if int(nroLinha) != i:
+            novosEventos.append(evento)
+        i = i + 1
+
+    reinserirEventoCsv(novosEventos)
+    return { 'message': 'Evento deletado com sucesso' }
+
+# *******************************************************
+# *******************************************************
+# 
+# [ C O N S T R U T O R ]
+
+def listarEventoCsv():
+    eventos = []
+    with open(eventoFile, 'r', encoding='latin-1') as planilha:
+        tabela = csv.reader(planilha, delimiter=';')
+        count = 1        
+        for linha in tabela:
+            if count != 1: #aqui estamos pulando a linha que corresponde ao cabeçalho do csv
+                eventos.append({ 
+                    'nome': linha[0],
+                    'data': linha[1],                     
+                    'horario': linha[2],
+                    'descricao': linha[3]                     
+                })
+            count += 1
+
+    return eventos
+
+def inserirEventoCsv(evento):
+    novaLinha = [evento["nome"], evento["data"], evento["horario"], evento["descricao"]]
+    with open(eventoFile, 'a', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerow(novaLinha)  
+        planilha.close()
+
+def reinserirEventoCsv(eventos):
+    linhas = []
+    linhas.append(["nome", "data", "horario", "descricao"]) # é necessário inserir novamente o cabeçalho da planilha
+
+    for evento in eventos:
+        novaLinha = [evento["nome"], evento["data"], evento["horario"], evento["descricao"]]
+        linhas.append(novaLinha)
+
+    with open(eventoFile, 'w', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerows(linhas)  
+        planilha.close()
+
+# *******************************************************
+# ********************* EVENTOS *********************
+# 
+# >>>>>>>>  f i m   <<<<<<<<<
+
+
+
+
+
+# *******************************************************
+# ********************* DEPOIMENTOS *********************
+# 
+# >>>>>>>>  i n i c i o   <<<<<<<<<
+# 
+# [ a t r i b u t o s ]
+
+@app.route('/depoimento/inserir', methods=['POST'])
+def inserirDepoimento():
+    depoimento = json.loads(request.data)
+    inserirDepoimentoCsv(depoimento)
+    return { 'message': 'Depoimento adicionado com sucesso' }  
+
+@app.route('/depoimento/listar', methods=['GET'])
+def listarDepoimento():
+    depoimentos = listarDepoimentoCsv()
+    return json.dumps(depoimentos)    
+
+# para a exclusão, é necessário reconstruir toda a planilha
+# pra isso, faremos a obtenção de todos os dados da planilha e adicionaremos todos novamente com exceção
+# ao número da linha que virá como parâmetro neste método (end-point)
+@app.route('/depoimento/deletar/<nroLinha>', methods=['DELETE'])
+def deletarDepoimento(nroLinha):
+    depoimentos = listarDepoimentoCsv()
+    novosDepoimentos = []       
+
+    i = 0
+    for depoimento in depoimentos:        
+        if int(nroLinha) != i:
+            novosDepoimentos.append(depoimento)
+        i = i + 1
+
+    reinserirDepoimentoCsv(novosDepoimentos)
+    return { 'message': 'Depoimento deletado com sucesso' }
+
+# *******************************************************
+# *******************************************************
+# 
+# [ C O N S T R U T O R ]
+
+def listarDepoimentoCsv():
+    depoimentos = []
+    with open(depoimentoFile, 'r', encoding='latin-1') as planilha:
+        tabela = csv.reader(planilha, delimiter=';')
+        count = 1        
+        for linha in tabela:
+            if count != 1: #aqui estamos pulando a linha que corresponde ao cabeçalho do csv
+                depoimentos.append({ 
+                    'nome': linha[0],
+                    'depoimento': linha[1]                   
+                })
+            count += 1
+
+    return depoimentos
+
+def inserirDepoimentoCsv(depoimento):
+    novaLinha = [depoimento["nome"], depoimento["depoimento"]]
+    with open(depoimentoFile, 'a', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerow(novaLinha)  
+        planilha.close()
+
+def reinserirDepoimentoCsv(depoimentos):
+    linhas = []
+    linhas.append(["nome", "depoimento"]) # é necessário inserir novamente o cabeçalho da planilha
+
+    for depoimento in depoimentos:
+        novaLinha = [depoimento["nome"], depoimento["depoimento"]]
+        linhas.append(novaLinha)
+
+    with open(depoimentoFile, 'w', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerows(linhas)  
+        planilha.close()
+
+# *******************************************************
+# ********************* DEPOIMENTOS *********************
+# 
+# >>>>>>>>  f i m   <<<<<<<<<
+
+
+
+
+
+# *******************************************************
+# ********************* ATENDIMENTOS *********************
+# 
+# >>>>>>>>  i n i c i o   <<<<<<<<<
+# 
+# [ a t r i b u t o s ]
+
+@app.route('/atendimento/inserir', methods=['POST'])
+def inserirAtendimento():
+    atendimento = json.loads(request.data)
+    inserirAtendimentoCsv(atendimento)
+    return { 'message': 'Atendimento adicionado com sucesso' }  
+
+@app.route('/atendimento/listar', methods=['GET'])
+def listarAtendimento():
+    atendimentos = listarAtendimentoCsv()
+    return json.dumps(atendimentos)    
+
+# para a exclusão, é necessário reconstruir toda a planilha
+# pra isso, faremos a obtenção de todos os dados da planilha e adicionaremos todos novamente com exceção
+# ao número da linha que virá como parâmetro neste método (end-point)
+@app.route('/atendimento/deletar/<nroLinha>', methods=['DELETE'])
+def deletarAtendimento(nroLinha):
+    atendimentos = listarAtendimentoCsv()
+    novosAtendimentos = []       
+
+    i = 0
+    for atendimento in atendimentos:        
+        if int(nroLinha) != i:
+            novosAtendimentos.append(atendimento)
+        i = i + 1
+
+    reinserirAtendimentoCsv(novosAtendimentos)
+    return { 'message': 'Atendimento deletado com sucesso' }
+
+# *******************************************************
+# *******************************************************
+# 
+# [ C O N S T R U T O R ]
+
+def listarAtendimentoCsv():
+    atendimentos = []
+    with open(atendimentoFile, 'r', encoding='latin-1') as planilha:
+        tabela = csv.reader(planilha, delimiter=';')
+        count = 1        
+        for linha in tabela:
+            if count != 1: #aqui estamos pulando a linha que corresponde ao cabeçalho do csv
+                atendimentos.append({ 
+                    'nome': linha[0],
+                    'email': linha[1],                     
+                    'telefone': linha[2],
+                    'mensagem': linha[3]                     
+                })
+            count += 1
+
+    return atendimentos
+
+def inserirAtendimentoCsv(atendimento):
+    novaLinha = [atendimento["nome"], atendimento["email"], atendimento["telefone"], atendimento["mensagem"]]
+    with open(atendimentoFile, 'a', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerow(novaLinha)  
+        planilha.close()
+
+def reinserirAtendimentoCsv(atendimentos):
+    linhas = []
+    linhas.append(["nome", "email", "telefone", "mensagem"]) # é necessário inserir novamente o cabeçalho da planilha
+
+    for atendimento in atendimentos:
+        novaLinha = [atendimento["nome"], atendimento["email"], atendimento["telefone"], atendimento["mensagem"]]
+        linhas.append(novaLinha)
+
+    with open(atendimentoFile, 'w', newline='') as planilha:  
+        writer_object = writer(planilha, delimiter=';')
+        writer_object.writerows(linhas)  
+        planilha.close()
+
+# *******************************************************
+# ********************* ATENDIMENTOS *********************
+# 
+# >>>>>>>>  f i m   <<<<<<<<<
+
