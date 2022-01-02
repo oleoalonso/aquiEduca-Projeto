@@ -42,7 +42,6 @@ atendimentoFile = '../csv/atendimentos.csv'
 
 
 
-
 # *******************************************************
 # ********************* ACOMODAÇÃO *********************
 # 
@@ -123,7 +122,6 @@ def reinserirAcomodacaoCsv(acomodacoes):
 # ********************* ACOMODAÇÃO *********************
 # 
 # >>>>>>>>  f i m   <<<<<<<<<    
-
 
 
 
@@ -210,7 +208,6 @@ def reinserirFuncionarioCsv(funcionarios):
 # ********************* FUNCIONÁRIO *********************
 # 
 # >>>>>>>>  f i m   <<<<<<<<<        
-
 
 
 
@@ -381,6 +378,7 @@ def reinserirValorCsv(valores):
 # ********************* VALOR *********************
 # 
 # >>>>>>>>  f i m   <<<<<<<<<
+
 
 
 
