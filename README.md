@@ -8,7 +8,7 @@ Este projeto refere-se a um sistema interno de Hostel (Hotel).
 
 ### FUNCIONALIDADES e PROPRIEDADES:
 
-- Acomodações:
+- Acomodações
     - Nome do quarto
     - Tipo
     - Quantidade de cama
