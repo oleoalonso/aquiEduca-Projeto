@@ -66,3 +66,12 @@ Este projeto refere-se a um sistema interno de Hostel (Hotel).
     - E-mail
     - Telefone
     - Mensagem
+
+
+
+### AÇÕES
+Em cada funcionalidade possui as seguintes ações:
+
+ - Inserir
+ - Listar
+ - Deletar
